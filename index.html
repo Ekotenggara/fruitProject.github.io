@@ -7,25 +7,30 @@
 
 </head>
 <body>
-    <p>
-        <label for="combo2" class="label">Add Keyword</label>
-        <input id="Text1" type="text" style="width:450px" onchange="return refreshCombo()" />
-    </p>
-    <p>
+    <p align="left" style="width:550px">
         <label for="combo2" class="label">Fruit Selection</label>
-        <select name="fruitCombo" class="combo-option" id="Select1" style="width:450px">
+    </p>
+    <p align="right" style="width:550px">
+        <label for="combo2" class="label">Enter Your Info</label>
+        <input id="Text1" type="text" style="width:350px" onchange="return refreshCombo()" />
+    </p>
+    <p align="right" style="width:550px">
+        <label for="combo2" class="label">Choose Best Answer</label>
+        <select name="fruitCombo" class="combo-option" id="Select1" style="width:350px">
+            <option value="Please Choose">Please Choose</option>
             <option value="Apple">Apple</option>
             <option value="Pear">Pear</option>
             <option value="Orange">Orange</option>
             <option value="Banana">Banana</option>
             <option value="Strawberry">Strawberry</option>
             <!--<option value="Suggested">Suggested</option>
-        <option value="Other Option">Other Option</option>-->
+            <option value="Other Option">Other Option</option>-->
         </select>
     </p>
-    <input id="Submit1" class="label" type="submit" value="Submit" onclick="return saveSelection();" />      
-    <input id="BtnReset1" class="label" type="button" value="Reset" onclick="return resetCookie();" />
-        
-    <script src="FruitSelect.js"></script>
+    <p align="right" style="width:550px">
+        <input id="BtnReset1" class="label" style="color:red;" type="button" value="Reset" onclick="return resetCookie();" />
+        <input id="Submit1" class="label" style="color:green;" type="submit" value="Submit" onclick="return saveSelection();" />
+    </p>
+        <script src="FruitSelect.js"></script>
 </body>
 </html>

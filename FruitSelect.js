@@ -5,15 +5,19 @@ function saveSelection() {
     var textVal1 = document.getElementById('Text1').value;
     //alert(textval);
     var selectVal2 = document.getElementById('Select1').value;
-    if (selectVal2 == "Suggested") {
+    if (selectVal2 == "Please Choose") {
         //reject this
-        return true;
-    } else if (selectVal2 == "Other Option") {
-        //reject this
+        alert("Please choose the fruit from the dropdown.");
         return true;
     } else {
-        var newSelection = JSON.parse('[{"clue":"' + textVal1 + '","fruit":"' + selectVal2 + '"}]');
-        
+      
+         try {
+             var newSelection = JSON.parse('[{"clue":"' + textVal1 + '","fruit":"' + selectVal2 + '"}]');
+        }
+        catch (err) {
+             alert("The keyword contains a reserved character. Please remove it and try again,");
+             return true;
+        }
         let curSavedSelection = getCookie("SavedSelectionList");
         if (curSavedSelection == "") {
             //still empty  
@@ -26,15 +30,24 @@ function saveSelection() {
         setCookie('SavedSelectionList', JSON.stringify(arraySelection), 2);
         document.getElementById('Text1').value = "";
         refreshCombo();
+        alert("The selection has been recorded successfully. Current records : " + arraySelection.length);
+
     }
 
     return true;
 }
 
 function resetCookie() {
-    let expires = "expires=Thu, 01 Jan 1970 00:00:01 GMT"
-    document.cookie = "SavedSelectionList" + "=" + '' + ";" + expires + ";path=/";
-    refreshCombo();
+
+    if (confirm("Do you want to delete the selection list and start again?")) {
+        let expires = "expires=Thu, 01 Jan 1970 00:00:01 GMT"
+        document.cookie = "SavedSelectionList" + "=" + '' + ";" + expires + ";path=/";
+        refreshCombo();
+        alert("The selection has been reset successfully.")
+    } else {
+        alert("The reset has been cancelled.")
+    }
+
 }
 
 function setCookie(cname, cvalue, exdays) {
@@ -63,14 +76,16 @@ function refreshCombo() {
 
     const availableOptions = ['Apple', 'Pear', 'Orange', 'Banana', 'Strawberry'];
     const matchingCount = [0, 0, 0, 0, 0];
-    var i, L = Select1.options.length - 1;
+    var i, L = Select1.options.length - 2;
 
     var textVal1 = document.getElementById('Text1').value;
     let curSavedSelection = getCookie("SavedSelectionList");
+    Select1.options[0].value = "Please Choose";
+    Select1.options[0].value = "Please Choose";
     if ((curSavedSelection == "") | (textVal1 == "")) {
         for (i = 0; i <= L; i++) {
-            Select1.options[i].value = availableOptions[i];
-            Select1.options[i].text = availableOptions[i];
+            Select1.options[i+1].value = availableOptions[i];
+            Select1.options[i+1].text = availableOptions[i];
         }
     } else {
 
@@ -94,16 +109,17 @@ function refreshCombo() {
         })
 
         for (i = 0; i <= L; i++) {
-            Select1.options[i].value = orderedByMatch[i].fruit;
+            Select1.options[i+1].value = orderedByMatch[i].fruit;
             if ((orderedByMatch[i].matchCount > 0) & (i < 3)) {
-                Select1.options[i].text = orderedByMatch[i].fruit + '-Suggestion-' + (i+1);
+                Select1.options[i + 1].text = orderedByMatch[i].fruit + '-Suggestion-' + (i+1);
             } else {
-                Select1.options[i].text = orderedByMatch[i].fruit;
+                Select1.options[i + 1].text = orderedByMatch[i].fruit;
             }
             
         }
 
     }
-
+    document.getElementById('Select1').value = "Please Choose";
     return true;
 }
+
