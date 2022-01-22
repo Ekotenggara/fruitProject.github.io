@@ -3,20 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Fruit Selection</title>
-   <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+    <script src="FruitSelect.js"></script>
 
+    <script>
+        $(function () {
+            $("#Select1").autocomplete({
+
+            });
+        });
+    </script>
 </head>
+
+
 <body>
     <p align="left" style="width:550px">
-        <label for="combo2" class="label">Fruit Selection</label>
+        <label class="label">Fruit Selection</label>
     </p>
-    <p align="right" style="width:550px">
-        <label for="combo2" class="label">Enter Your Info</label>
-        <input id="Text1" type="text" style="width:350px" onchange="return refreshCombo()" />
-    </p>
-    <p align="right" style="width:550px">
-        <label for="combo2" class="label">Choose Best Answer</label>
-        <select name="fruitCombo" class="combo-option" id="Select1" style="width:350px">
+    <div align="left">
+        <label class="label">Enter Your Info</label>
+    </div>
+    <div align="right" style="width:550px">
+        <input id="Text1" type="text" style="width:350px" onkeydown="return refreshCombo()" onfocus="return openCombo()" />
+    </div>
+    <div align="left">
+        <label class="label" align="top">Choose Best Answer</label>
+    </div>
+    <div align="right" style="width:550px">
+        <select name="fruitCombo" class="combo-option" id="Select1" style="width:350px" size="6">
             <option value="Please Choose">Please Choose</option>
             <option value="Apple">Apple</option>
             <option value="Pear">Pear</option>
@@ -24,11 +40,12 @@
             <option value="Banana">Banana</option>
             <option value="Strawberry">Strawberry</option>
         </select>
-    </p>
-    <p align="right" style="width:550px">
-        <input id="BtnReset1" class="label" style="color:red;" type="button" value="Reset" onclick="return resetCookie();" />
-        <input id="Submit1" class="label" style="color:green;" type="submit" value="Submit" onclick="return saveSelection();" />
-    </p>
-        <script src="FruitSelect.js"></script>
+    </div>
+
+        <p align="left" style="width:550px">
+            <input id="BtnReset1" class="label" style="color:red;" type="button" value="Reset" onclick="return resetCookie();" />
+            <input id="Submit1" class="label" style="color:green;" type="submit" value="Submit" onclick="return saveSelection();" />
+        </p>
+
 </body>
-</html>
+    </html>
