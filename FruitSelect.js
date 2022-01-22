@@ -1,9 +1,7 @@
 ﻿
 function saveSelection() {
-    //alert("Submit button clicked!");
- 
+
     var textVal1 = document.getElementById('Text1').value;
-    //alert(textval);
     var selectVal2 = document.getElementById('Select1').value;
     if (selectVal2 == "Please Choose") {
         //reject this
@@ -37,6 +35,7 @@ function saveSelection() {
     return true;
 }
 
+//remove the saved cookie
 function resetCookie() {
 
     if (confirm("Do you want to delete the selection list and start again?")) {
@@ -50,6 +49,7 @@ function resetCookie() {
 
 }
 
+//save the cookie
 function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
@@ -57,6 +57,7 @@ function setCookie(cname, cvalue, exdays) {
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
 
+//get the cookie
 function getCookie(cname) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
@@ -72,6 +73,7 @@ function getCookie(cname) {
     return "";
 }
 
+//refresh the combo suggestion in every reset, submission or keyword change.
 function refreshCombo() {
 
     const availableOptions = ['Apple', 'Pear', 'Orange', 'Banana', 'Strawberry'];
@@ -80,9 +82,13 @@ function refreshCombo() {
 
     var textVal1 = document.getElementById('Text1').value;
     let curSavedSelection = getCookie("SavedSelectionList");
+
+    //Please Choose always be the default which comes first
     Select1.options[0].value = "Please Choose";
     Select1.options[0].value = "Please Choose";
+
     if ((curSavedSelection == "") | (textVal1 == "")) {
+        //no saved selections or no keyword, set the normal list without suggestion
         for (i = 0; i <= L; i++) {
             Select1.options[i+1].value = availableOptions[i];
             Select1.options[i+1].text = availableOptions[i];
@@ -91,6 +97,8 @@ function refreshCombo() {
 
         var arraySelection = JSON.parse(curSavedSelection);
 
+        //Going through the saved selections and count the occurences of the keyword
+        //Pair the counting with the fruit list.
         var matchingString = '[';
         for (i = 0; i <= L; i++) {
             var filterContainText = arraySelection.filter(function (item) {
@@ -104,6 +112,7 @@ function refreshCombo() {
         matchingString = matchingString + ']';
         var matchingJson = JSON.parse(matchingString);
 
+        //Order the fruit list based on the suggestion count
         var orderedByMatch = matchingJson.sort(function (a, b) {
             return a.matchCount < b.matchCount ? 1 : -1;
         })
@@ -111,6 +120,7 @@ function refreshCombo() {
         for (i = 0; i <= L; i++) {
             Select1.options[i+1].value = orderedByMatch[i].fruit;
             if ((orderedByMatch[i].matchCount > 0) & (i < 3)) {
+                //only mark the suggestion up to three top result
                 Select1.options[i + 1].text = orderedByMatch[i].fruit + '-Suggestion-' + (i+1);
             } else {
                 Select1.options[i + 1].text = orderedByMatch[i].fruit;
@@ -119,6 +129,7 @@ function refreshCombo() {
         }
 
     }
+    //Set the value back to default to force the user to reselect the fruit.
     document.getElementById('Select1').value = "Please Choose";
     return true;
 }
