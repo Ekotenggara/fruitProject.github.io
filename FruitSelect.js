@@ -10,7 +10,7 @@ function saveSelection() {
     } else {
       
          try {
-             var newSelection = JSON.parse('[{"clue":"' + textVal1 + '","fruit":"' + selectVal2 + '"}]');
+             var newSelection = JSON.parse('[{"clue":"' + textVal1.toLowerCase() + '","fruit":"' + selectVal2 + '"}]');
         }
         catch (err) {
              alert("The keyword contains a reserved character. Please remove it and try again,");
@@ -107,7 +107,7 @@ function refreshCombo() {
         var matchingString = '[';
         for (i = 0; i <= L; i++) {
             var filterContainText = arraySelection.filter(function (item) {
-                return (item.clue.includes(textVal1)) && (item.fruit == availableOptions[i]) ;
+                return (item.clue.includes(textVal1.toLowerCase())) && (item.fruit == availableOptions[i]) ;
             });
             if (i > 0) {
                 matchingString = matchingString + ','
