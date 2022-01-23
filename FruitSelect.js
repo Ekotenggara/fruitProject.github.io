@@ -2,7 +2,7 @@
 function saveSelection() {
 
     var textVal1 = document.getElementById('Text1').value;
-    var selectVal2 = document.getElementById('Select1').value;
+    var selectVal2 = document.getElementById('TextSelection').value;
     if (selectVal2 == "Please Choose") {
         //reject this
         alert("Please choose the fruit from the dropdown.");
@@ -37,7 +37,6 @@ function saveSelection() {
 
 //remove the saved cookie
 function resetCookie() {
-
     if (confirm("Do you want to delete the selection list and start again?")) {
         let expires = "expires=Thu, 01 Jan 1970 00:00:01 GMT"
         document.cookie = "SavedSelectionList" + "=" + '' + ";" + expires + ";path=/";
@@ -78,20 +77,20 @@ function refreshCombo() {
 
     const availableOptions = ['Apple', 'Pear', 'Orange', 'Banana', 'Strawberry'];
     const matchingCount = [0, 0, 0, 0, 0];
-    var i, L = Select1.options.length - 2;
+    var i, L = Select1.options.length - 1;
 
     var textVal1 = document.getElementById('Text1').value;
     let curSavedSelection = getCookie("SavedSelectionList");
 
     //Please Choose always be the default which comes first
-    Select1.options[0].value = "Please Choose";
-    Select1.options[0].value = "Please Choose";
+    //Select1.options[0].value = "Please Choose";
+    //Select1.options[0].value = "Please Choose";
 
     if ((curSavedSelection == "") | (textVal1 == "")) {
         //no saved selections or no keyword, set the normal list without suggestion
         for (i = 0; i <= L; i++) {
-            Select1.options[i+1].value = availableOptions[i];
-            Select1.options[i+1].text = availableOptions[i];
+            Select1.options[i].value = availableOptions[i];
+            Select1.options[i].text = availableOptions[i];
         }
     } else {
 
@@ -118,20 +117,25 @@ function refreshCombo() {
         })
 
         for (i = 0; i <= L; i++) {
-            Select1.options[i+1].value = orderedByMatch[i].fruit;
+            Select1.options[i].value = orderedByMatch[i].fruit;
             if ((orderedByMatch[i].matchCount > 0) & (i < 3)) {
                 //only mark the suggestion up to three top result
-                Select1.options[i + 1].text = orderedByMatch[i].fruit + '-Suggestion-' + (i+1);
+                Select1.options[i].text = orderedByMatch[i].fruit + '-Suggestion-' + (i+1);
             } else {
-                Select1.options[i + 1].text = orderedByMatch[i].fruit;
+                Select1.options[i].text = orderedByMatch[i].fruit;
             }
             
         }
 
     }
     //Set the value back to default to force the user to reselect the fruit.
+    document.getElementById('TextSelection').value = "Please Choose";
     document.getElementById('Select1').value = "Please Choose";
-    return true;
+   return true;
+}
+
+function refreshTextSelection() {
+    document.getElementById('TextSelection').value = document.getElementById('Select1').value;
 }
 
 
